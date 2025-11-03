@@ -1,0 +1,107 @@
+{
+  "evaluation_results": {
+    "embedding_quality": {
+      "mean_accuracy": 1.0,
+      "std_accuracy": 0.0,
+      "fold_scores": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    "sentiment_analysis": {
+      "random_forest": {
+        "mean_accuracy": 0.8,
+        "std_accuracy": 0.06123724356957946,
+        "fold_scores": [
+          0.875,
+          0.875,
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "svm": {
+        "mean_accuracy": 0.8,
+        "std_accuracy": 0.06123724356957946,
+        "fold_scores": [
+          0.875,
+          0.875,
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "logistic_regression": {
+        "mean_accuracy": 0.8,
+        "std_accuracy": 0.06123724356957946,
+        "fold_scores": [
+          0.875,
+          0.875,
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "best_model": {
+        "name": "random_forest",
+        "accuracy": 0.8
+      },
+      "sentiment_distribution": {
+        "negative": 8,
+        "neutral": 32,
+        "positive": 0
+      },
+      "regression_analysis": {
+        "mean_r2": -0.6188555479049682,
+        "std_r2": 1.0187637554657807,
+        "description": "Sentiment intensity prediction (R\u00b2: -0.619)"
+      }
+    },
+    "clustering": {
+      "optimal_clusters": 7,
+      "best_score": 0.054382145404815674,
+      "all_scores": [
+        0.05302006006240845,
+        0.04936720430850983,
+        0.03847754746675491,
+        0.04200415313243866,
+        0.04442501813173294,
+        0.054382145404815674,
+        0.04220502823591232
+      ],
+      "inertia_scores": [
+        23.632946014404297,
+        22.38910484313965,
+        21.440086364746094,
+        20.42203140258789,
+        19.049848556518555,
+        18.44370460510254,
+        17.685453414916992
+      ],
+      "clustering_quality": "weak",
+      "interpretation": "Minimal clustering structure - emotions blend together in continuum"
+    }
+  },
+  "frontend_metrics": {
+    "timestamp": "2025-11-03 20:02",
+    "components": {
+      "embedding": {
+        "score": 100.0,
+        "description": "Semantic Understanding: 100.0%"
+      },
+      "sentiment": {
+        "score": 80.0,
+        "description": "Emotion Detection: 80.0%"
+      },
+      "clustering": {
+        "score": 5.438214540481567,
+        "description": "Emotion Pattern Clusters: 7 groups"
+      }
+    },
+    "overall_confidence": 61.81273818016052
+  },
+  "timestamp": "2025-11-03T20:02:54.512666"
+}

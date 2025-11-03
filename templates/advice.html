@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxury Shame Project - Personal Advice</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --primary-color: #5a4d4d;       /* Muted dark brownish */
+    --secondary-color: #8c7c7c;     /* Soft greyish brown */
+    --accent-color: #e2c4b6;        /* Nude pink */
+    --light-color: #fdf6f2;         /* Very light nude */
+    --button-gradient-start: #e2c4b6;
+    --button-gradient-end: #d8b8a3;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #f8f4f2 0%, #f0e8e5 100%);
+    color: var(--primary-color);
+    min-height: 100vh;
+    
+}
+
+header {
+    background: var(--primary-color);
+    color: var(--light-color);
+    text-align: center;
+    padding: 25px 0;
+    border-bottom: 3px solid var(--accent-color);
+}
+
+header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    margin: 0;
+}
+
+nav a {
+    color: var(--light-color) !important;
+    margin: 0 12px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+nav a.active {
+    color: var(--accent-color) !important;
+    font-weight: bold;
+}
+
+main {
+    width: 100%;
+    min-height: calc(100vh - 100px); /* full height minus header */
+    background: var(--light-color);
+    padding: 60px 10%;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--secondary-color);
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.product-input, .feeling-input, textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--secondary-color);
+    font-size: 1rem;
+    background: #fff7f2;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.product-input:focus, .feeling-input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 8px rgba(226,196,182,0.5);
+}
+
+.get-advice-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, var(--button-gradient-start), var(--button-gradient-end));
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(226,196,182,0.3);
+}
+
+.get-advice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(226,196,182,0.5);
+    background: linear-gradient(135deg, #d8b8a3, #e9c9b5);
+}
+
+.ai-advice-container {
+    display: none;
+    margin-top: 40px;
+    background: #fff0eb;
+    padding: 30px;
+    border-radius: 15px;
+    border-left: 5px solid var(--accent-color);
+}
+
+.ai-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ai-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-right: 20px;
+}
+
+.ai-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.advice-content {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--primary-color);
+}
+
+.loading-spinner {
+    border: 4px solid #ccc;
+    border-top: 4px solid var(--accent-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    main { padding: 30px; margin: 30px 15px; }
+    header h1 { font-size: 2.4rem; }
+    .ai-title { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Personal Advice</h1>
+    <nav>
+        <a href="/home"> Home</a>
+        <a href="/metrics"> Feelings Metrics</a>
+        <a href="/"> Personal Advice</a>
+        <a href="/reviews"> User Reviews</a>
+    </nav>
+</header>
+
+<main>
+<h2>Share Your Feelings</h2>
+<p>Type in how you feel about your luxury product and receive personalized advice.</p>
+
+<div class="input-group">
+    <input type="text" class="feeling-input" id="feeling-text" placeholder="Describe how you are feeling...">
+</div>
+
+<div class="input-group">
+    <input type="text" class="product-input" id="product-description" placeholder="Describe your luxury product (e.g., Rolex watch, Chanel bag)">
+</div>
+
+<div class="input-group">
+    <textarea id="specific-concern" rows="3" placeholder="Any additional context or concerns? (Optional)"></textarea>
+</div>
+
+<button class="get-advice-btn" id="get-advice-btn">
+    <i class="fas fa-robot"></i> Get AI Advice
+</button>
+
+<div class="ai-advice-container" id="ai-advice-container">
+    <div class="ai-header">
+        <div class="ai-icon"><i class="fas fa-crown"></i></div>
+        <div class="ai-title">Personalized Luxury Advice</div>
+    </div>
+    <div class="advice-content" id="advice-content"></div>
+    <div class="loading" id="loading" style="display:none;">
+        <div class="loading-spinner"></div>
+        <p>Analyzing your feelings...</p>
+    </div>
+</div>
+</main>
+
+<script>
+document.getElementById('get-advice-btn').addEventListener('click', async function() {
+    const feeling = document.getElementById('feeling-text').value.trim();
+    const product = document.getElementById('product-description').value.trim();
+    const concern = document.getElementById('specific-concern').value.trim();
+
+    if (!feeling) { alert('Please enter how you are feeling.'); return; }
+    if (!product) { alert('Please describe your luxury product.'); return; }
+
+    document.getElementById('ai-advice-container').style.display = 'block';
+    document.getElementById('advice-content').innerHTML = '';
+    document.getElementById('loading').style.display = 'block';
+
+    try {
+        const response = await fetch('/api/get-advice', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ feeling, product, concern })
+        });
+        const data = await response.json();
+
+        document.getElementById('loading').style.display = 'none';
+
+        if (data.success) {
+            document.getElementById('advice-content').innerHTML = data.advice;
+        } else {
+            document.getElementById('advice-content').innerHTML = `<p>Could not generate advice. Please try again.</p>`;
+        }
+    } catch (error) {
+        console.error(error);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('advice-content').innerHTML = `<p>Something went wrong. Try again later.</p>`;
+    }
+});
+</script>
+
+</body>
+</html>

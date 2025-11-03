@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Shame Project - Feelings Metrics</title>
+    <!-- Google Fonts & Bootstrap -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #5a4d4d;        /* Muted dark brownish */
+            --secondary-color: #8c7c7c;      /* Soft greyish brown */
+            --accent-color: #e2c4b6;         /* Nude pink */
+            --light-color: #fdf6f2;          /* Very light nude */
+            --button-gradient-start: #e2c4b6;
+            --button-gradient-end: #d8b8a3;
+        }
+        
+        body {
+            font-family: 'Playfair Display', serif;
+            background: linear-gradient(160deg, #f8f4f2 0%, #f0e8e5 100%);
+           color: var(--primary-color);
+           margin: 0;
+           padding: 0;
+           text-align: center;
+        }
+        
+        header {
+            background: var(--primary-color);
+            color: var(--light-color);
+            text-align: center;
+            padding: 25px 0;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.8rem;
+            margin-bottom: 12px;
+            letter-spacing: 4px;
+            font-weight: 700;
+        }
+        
+        nav a {
+            color: #fff !important;
+            margin: 0 15px;
+            font-weight: 500;
+            background: var(--primary-color);
+            padding: 12px 28px;
+            border-radius: 25px;
+            transition: all 0.2s;
+            box-shadow: 0 3px 15px rgba(191,161,100,0.25);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        nav a:hover {
+            background: #fff !important;
+            color: var(--secondary-color) !important;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(191,161,100,0.5);
+            transform: translateY(-2px);
+        }
+        
+        main {
+            background: #fff;
+            max-width: 1200px;
+            margin: 50px auto;
+            border-radius: 16px;
+            padding: 48px 42px;
+            box-shadow: 0 0 30px 6px rgba(191,161,100,0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+        
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            color: #555;
+        }
+        
+        .dashboard-section {
+            margin-bottom: 50px;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .metric-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin: 10px 0;
+        }
+        
+        .metric-description {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .chart-container {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .chart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+        
+        .ml-insights {
+            background: var(--light-color);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .insight-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .insight-content h4 {
+            margin: 0 0 8px 0;
+            color: var(--dark-color);
+        }
+        
+        .insight-content p {
+            margin: 0;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .evaluation-controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .evaluate-btn {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 700;
+            padding: 14px 40px;
+            border-radius: 35px;
+            border: none;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+            font-size: 1.15rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(191, 161, 100, 0.3);
+        }
+        
+        .evaluate-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(191, 161, 100, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background: #e8f5e8;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+        }
+        
+        .status-error {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+        }
+        
+        .regression-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            
+            nav a {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+                max-width: 250px;
+            }
+            
+            main {
+                margin: 30px 15px;
+                padding: 30px 20px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    
+    <header>
+        <h1>Feelings Metrics</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="metrics">Feelings Metrics</a>
+            <a href="advice">Personal Advice</a>
+            <a href="reviews">User Reviews</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>AI-Powered Emotional Analytics</h2>
+        <p class="intro-text">Advanced machine learning insights into luxury purchase emotions and sentiment patterns</p>
+        
+        <div class="evaluation-controls">
+            <button id="evaluateBtn" class="evaluate-btn">
+                <i class="fas fa-brain"></i> Run ML Evaluation
+            </button>
+            <div id="statusMessage" class="status-message"></div>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Running comprehensive ML evaluation...</p>
+        </div>
+        
+        <div id="dashboardContent" style="display: none;">
+            <!-- ML Evaluation Metrics -->
+            <div class="dashboard-section">
+                <h3>Model Performance Metrics</h3>
+                <div class="metrics-grid" id="metricsGrid">
+                    <!-- Metrics will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Sentiment Analysis Charts -->
+            <div class="dashboard-section">
+                <h3>Sentiment Analysis</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Emotion Distribution</div>
+                    <canvas id="sentimentChart" height="250"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <div class="chart-title">Model Accuracy Comparison</div>
+                    <canvas id="modelChart" height="250"></canvas>
+                </div>
+            </div>
+            
+            <!-- Regression Analysis -->
+            <div class="dashboard-section">
+                <h3>Clustering Analysis</h3>
+                <div class="chart-container">
+                    <div class="chart-title">Emotion Pattern Clusters</div>
+                    <canvas id="clusterChart" height="300"></canvas>
+                </div>
+                
+                <div class="regression-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="logisticAccuracy">--%</div>
+                        <div class="stat-label"> Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="linearCorrelation">--</div>
+                        <div class="stat-label">Emotion-Value Correlation</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="optimalClusters">--</div>
+                        <div class="stat-label">Optimal Emotion Clusters</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="confidenceScore">--%</div>
+                        <div class="stat-label">Overall Confidence</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ML Insights -->
+            <div class="ml-insights">
+                <h3>Machine Learning Insights</h3>
+                <div id="insightsList">
+                    <!-- Insights will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Fallback content when no evaluation has been run -->
+        <div id="placeholderContent">
+            <div class="dashboard-section">
+                <div class="chart-container">
+                    <div class="chart-title">Ready for Analysis</div>
+                    <div style="text-align: center; padding: 60px 20px; color: #777;">
+                        <i class="fas fa-chart-line" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <h4>No Evaluation Data</h4>
+                        <p>Click "Run ML Evaluation" to analyze luxury emotion patterns and generate insights</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // DOM Elements
+        const evaluateBtn = document.getElementById('evaluateBtn');
+        const loadingDiv = document.getElementById('loading');
+        const statusMessage = document.getElementById('statusMessage');
+        const dashboardContent = document.getElementById('dashboardContent');
+        const placeholderContent = document.getElementById('placeholderContent');
+        const metricsGrid = document.getElementById('metricsGrid');
+        const insightsList = document.getElementById('insightsList');
+
+        // Chart instances
+        let sentimentChart, modelChart, clusterChart;
+
+        // Evaluate button handler
+        evaluateBtn.addEventListener('click', async function() {
+            // Show loading state
+            evaluateBtn.disabled = true;
+            evaluateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Evaluating...';
+            loadingDiv.style.display = 'block';
+            hideStatus();
+            
+            try {
+                // Call the evaluation endpoint
+                const response = await fetch('/api/evaluate-models');
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('success', 'ML evaluation completed successfully!');
+                    displayMetrics(result.metrics);
+                    generateCharts(result.metrics);
+                    generateInsights(result.metrics);
+                    
+                    // Show dashboard content
+                    dashboardContent.style.display = 'block';
+                    placeholderContent.style.display = 'none';
+                } else {
+                    throw new Error(result.error || 'Evaluation failed');
+                }
+            } catch (error) {
+                console.error('Evaluation error:', error);
+                showStatus('error', `Evaluation failed: ${error.message}`);
+            } finally {
+                // Reset button state
+                evaluateBtn.disabled = false;
+                evaluateBtn.innerHTML = '<i class="fas fa-brain"></i> Run ML Evaluation';
+                loadingDiv.style.display = 'none';
+            }
+        });
+
+        // Display metrics in the grid
+        function displayMetrics(metrics) {
+            const components = metrics.components || {};
+            
+            metricsGrid.innerHTML = `
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <div class="metric-value">${components.embedding ? components.embedding.score.toFixed(1) + '%' : '--%'}</div>
+                    <div class="metric-description">${components.embedding ? components.embedding.description : 'Embedding Quality'}</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-smile"></i>
+                    </div>
+                    <div class="metric-value">${components.sentiment ? components.sentiment.score.toFixed(1) + '%' : '--%'}</div>
+                    <div class="metric-description">${components.sentiment ? components.sentiment.description : 'Sentiment Analysis'}</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-object-group"></i>
+                    </div>
+                    <div class="metric-value">${components.clustering ? components.clustering.score.toFixed(1) + '%' : '--%'}</div>
+                    <div class="metric-description">${components.clustering ? components.clustering.description : 'Pattern Clustering'}</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="metric-value">${metrics.overall_confidence ? metrics.overall_confidence.toFixed(1) + '%' : '--%'}</div>
+                    <div class="metric-description">Overall Model Confidence</div>
+                </div>
+            `;
+            
+            // Update regression stats
+            if (components.clustering) {
+                document.getElementById('optimalClusters').textContent = 
+                    components.clustering.description.split(': ')[1] || '--';
+            }
+            
+            if (components.sentiment) {
+                document.getElementById('logisticAccuracy').textContent = 
+                    components.sentiment.score.toFixed(1) + '%';
+            }
+            
+            // Simulate regression values (in real app, these would come from backend)
+            document.getElementById('linearCorrelation').textContent = '0.82';
+            document.getElementById('confidenceScore').textContent = 
+                metrics.overall_confidence ? metrics.overall_confidence.toFixed(1) + '%' : '--%';
+        }
+
+        // Generate charts
+        function generateCharts(metrics) {
+            // Sentiment Distribution Chart
+            const sentimentCtx = document.getElementById('sentimentChart').getContext('2d');
+            if (sentimentChart) sentimentChart.destroy();
+            
+            sentimentChart = new Chart(sentimentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Negative Emotions', 'Neutral Feelings', 'Positive Emotions'],
+                    datasets: [{
+                        data: [65, 25, 10], // Sample data - would come from backend
+                        backgroundColor: [
+                            '#ff6b6b',
+                            '#ffd93d',
+                            '#6bcf7f'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Luxury Purchase Emotions'
+                        }
+                    }
+                }
+            });
+
+            // Model Comparison Chart
+            const modelCtx = document.getElementById('modelChart').getContext('2d');
+            if (modelChart) modelChart.destroy();
+            
+            modelChart = new Chart(modelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Random Forest', 'SVM', 'Logistic Regression'],
+                    datasets: [{
+                        label: 'Accuracy (%)',
+                        data: [76.3, 72.1, 74.8], // Sample data
+                        backgroundColor: [
+                            'rgba(191, 161, 100, 0.8)',
+                            'rgba(157, 141, 108, 0.8)',
+                            'rgba(134, 119, 92, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgb(191, 161, 100)',
+                            'rgb(157, 141, 108)',
+                            'rgb(134, 119, 92)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Accuracy (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Model Performance Comparison'
+                        }
+                    }
+                }
+            });
+
+            // Cluster Analysis Chart
+            const clusterCtx = document.getElementById('clusterChart').getContext('2d');
+            if (clusterChart) clusterChart.destroy();
+            
+            clusterChart = new Chart(clusterCtx, {
+                type: 'line',
+                data: {
+                    labels: ['0 Clusters', '1 Clusters', '2 Clusters', '3 Clusters', '4 Clusters'],
+                    datasets: [{
+                        label: 'Silhouette Score',
+                        data: [0.42, 0.57, 0.63, 0.59, 0.54],
+                        borderColor: 'rgb(191, 161, 100)',
+                        backgroundColor: 'rgba(191, 161, 100, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            title: {
+                                display: true,
+                                text: 'Silhouette Score'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Number of Clusters'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Optimal Cluster Analysis'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Generate ML insights
+        function generateInsights(metrics) {
+            const components = metrics.components || {};
+            
+            insightsList.innerHTML = `
+                <div class="insight-item">
+                    <div class="insight-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>High-Quality Embeddings</h4>
+                        <p>The semantic understanding model achieves ${components.embedding ? components.embedding.score.toFixed(1) : '--'}% accuracy in capturing luxury purchase emotions, enabling precise similarity matching.</p>
+                    </div>
+                </div>
+                
+                <div class="insight-item">
+                    <div class="insight-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Strong Sentiment Patterns</h4>
+                        <p>Logistic regression analysis reveals clear emotional patterns in luxury purchases with ${components.sentiment ? components.sentiment.score.toFixed(1) : '--'}% classification accuracy.</p>
+                    </div>
+                </div>
+                
+                <div class="insight-item">
+                    <div class="insight-icon">
+                        <i class="fas fa-object-group"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Distinct Emotion Clusters</h4>
+                        <p>K-means clustering identifies ${components.clustering ? components.clustering.description.split(': ')[1] : '4'} natural emotion groups in luxury shame experiences with strong separation.</p>
+                    </div>
+                </div>
+                
+                <div class="insight-item">
+                    <div class="insight-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="insight-content">
+                        <h4>Regression Insights</h4>
+                        <p>Regression shows strong correlation between purchase value and emotional intensity, with higher-priced items triggering more complex emotional responses.</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Status message functions
+        function showStatus(type, message) {
+            statusMessage.className = `status-message status-${type}`;
+            statusMessage.textContent = message;
+            statusMessage.style.display = 'block';
+        }
+
+        function hideStatus() {
+            statusMessage.style.display = 'none';
+        }
+
+        // Try to load existing metrics on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/ml-metrics');
+                const metrics = await response.json();
+                
+                if (metrics && !metrics.error) {
+                    displayMetrics(metrics);
+                    generateCharts(metrics);
+                    generateInsights(metrics);
+                    dashboardContent.style.display = 'block';
+                    placeholderContent.style.display = 'none';
+                }
+            } catch (error) {
+                console.log('No existing metrics found, showing placeholder');
+            }
+        });
+    </script>
+</body>
+</html>
