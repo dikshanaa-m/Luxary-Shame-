@@ -1,0 +1,138 @@
+{
+    "timestamp": "2025-11-05T22:14:12.715797",
+    "descriptive_stats": {
+        "total_reviews": 48,
+        "total_unique_words": 461,
+        "length_metrics": {
+            "avg_length": 35.979166666666664,
+            "median_length": 36.0
+        },
+        "sentiment_distribution": {
+            "Neutral": 22,
+            "Negative": 24,
+            "Positive": 2
+        }
+    },
+    "top_bigrams": [
+        [
+            "luxury goods",
+            3
+        ],
+        [
+            "spending money",
+            3
+        ],
+        [
+            "luxury bag",
+            2
+        ],
+        [
+            "luxury bags",
+            2
+        ],
+        [
+            "buyers remorse",
+            2
+        ],
+        [
+            "ive owned",
+            2
+        ],
+        [
+            "pochette year",
+            2
+        ],
+        [
+            "really guilty",
+            2
+        ],
+        [
+            "guilty remotely",
+            2
+        ],
+        [
+            "remotely regretting",
+            2
+        ],
+        [
+            "regretting purchase",
+            2
+        ],
+        [
+            "buy luxury",
+            2
+        ],
+        [
+            "money especially",
+            2
+        ],
+        [
+            "special occasion",
+            2
+        ],
+        [
+            "saw post",
+            2
+        ]
+    ],
+    "top_trigrams": [
+        [
+            "really guilty remotely",
+            2
+        ],
+        [
+            "guilty remotely regretting",
+            2
+        ],
+        [
+            "remotely regretting purchase",
+            2
+        ],
+        [
+            "spending money especially",
+            2
+        ],
+        [
+            "huge anxiety spending",
+            2
+        ],
+        [
+            "anxiety spending money",
+            2
+        ],
+        [
+            "ive wanted luxury",
+            1
+        ],
+        [
+            "wanted luxury bag",
+            1
+        ],
+        [
+            "luxury bag tried",
+            1
+        ],
+        [
+            "bag tried treat",
+            1
+        ]
+    ],
+    "correlation_matrix": {
+        "word_count": {
+            "word_count": 1.0,
+            "char_count": 0.9937,
+            "sentiment_intensity": -0.0615
+        },
+        "char_count": {
+            "word_count": 0.9937,
+            "char_count": 1.0,
+            "sentiment_intensity": -0.0685
+        },
+        "sentiment_intensity": {
+            "word_count": -0.0615,
+            "char_count": -0.0685,
+            "sentiment_intensity": 1.0
+        }
+    },
+    "simulated_roc_auc": 1.0
+}

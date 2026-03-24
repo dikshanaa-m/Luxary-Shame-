@@ -61,32 +61,26 @@
       }
     },
     "clustering": {
-      "optimal_clusters": 7,
-      "best_score": 0.054382145404815674,
+      "optimal_clusters": 2,
+      "best_score": 0.05302006006240845,
       "all_scores": [
         0.05302006006240845,
         0.04936720430850983,
         0.03847754746675491,
-        0.04200415313243866,
-        0.04442501813173294,
-        0.054382145404815674,
-        0.04220502823591232
+        0.04200415313243866
       ],
       "inertia_scores": [
         23.632946014404297,
         22.38910484313965,
         21.440086364746094,
-        20.42203140258789,
-        19.049848556518555,
-        18.44370460510254,
-        17.685453414916992
+        20.42203140258789
       ],
       "clustering_quality": "weak",
       "interpretation": "Minimal clustering structure - emotions blend together in continuum"
     }
   },
   "frontend_metrics": {
-    "timestamp": "2025-11-03 20:36",
+    "timestamp": "2025-11-05 19:08",
     "components": {
       "embedding": {
         "score": 100.0,
@@ -97,11 +91,11 @@
         "description": "Emotion Detection: 80.0%"
       },
       "clustering": {
-        "score": 5.438214540481567,
-        "description": "Emotion Pattern Clusters: 7 groups"
+        "score": 5.302006006240845,
+        "description": "Emotion Pattern Clusters: 2 groups"
       }
     },
-    "overall_confidence": 61.81273818016052
+    "overall_confidence": 61.76733533541361
   },
-  "timestamp": "2025-11-03T20:36:19.534798"
+  "timestamp": "2025-11-05T19:08:10.214718"
 }

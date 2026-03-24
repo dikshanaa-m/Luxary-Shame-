@@ -171,7 +171,7 @@ class MLEvaluator:
         self.evaluation_results['sentiment_analysis'] = results
         return results
     
-    def validate_clusters(self, max_clusters=8):
+    def validate_clusters(self, max_clusters=5):
         """Find optimal number of emotion clusters - IMPROVED VERSION"""
         print("🎯 Validating emotion clusters...")
         
